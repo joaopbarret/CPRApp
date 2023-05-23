@@ -1,0 +1,59 @@
+//
+//  ContentView.swift
+//  TimerTest
+//
+//  Created by jpbol on 06/05/2023.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    @State var timeRemaining = 5.0
+    let fullTime = 5.0
+    @State var isTimerActive = false
+    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .frame(width: 200, height: 200)
+                Circle()
+                    .trim(from: 0, to: CGFloat(timeRemaining/fullTime))
+                    .stroke(Color.red, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .frame(width: 200, height: 200)
+                    .rotationEffect(.degrees(-90))
+                Text("\(timeRemaining)")
+                    .font(.largeTitle)
+            }
+            .padding()
+            HStack {
+                Button(isTimerActive ? "Stop" : "Start", action: {isTimerActive.toggle()})
+                Button("Restart", role: .destructive, action: {
+                    timeRemaining = 5
+                })
+            }
+        }
+            
+
+        .onReceive (timer)
+        { time in
+            guard isTimerActive else {return}
+            if timeRemaining > 0
+            {
+                timeRemaining -= 1
+            }
+            else {
+                
+            }
+        }
+        .padding()
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
