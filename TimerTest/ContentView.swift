@@ -12,21 +12,12 @@ struct ContentView: View {
     let fullTime = 5.0
     @State var isTimerActive = false
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
     var body: some View {
         VStack {
-            ZStack {
-                Circle()
-                    .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                    .frame(width: 200, height: 200)
-                Circle()
-                    .trim(from: 0, to: CGFloat(timeRemaining/fullTime))
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                    .frame(width: 200, height: 200)
-                    .rotationEffect(.degrees(-90))
-                Text("\(timeRemaining)")
-                    .font(.largeTitle)
-            }
+            TimerView(timeRemaining: timeRemaining, fullTime: fullTime)
+            TimerView(timeRemaining: timeRemaining, fullTime: fullTime)
+            TimerView(timeRemaining: timeRemaining, fullTime: fullTime)
+            
             .padding()
             HStack {
                 Button(isTimerActive ? "Stop" : "Start", action: {isTimerActive.toggle()})
